@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/errors/input_error'
+InvalidRangeInputError = Class.new(StandardError)
+InvalidListInputError = Class.new(StandardError)
 
 module ValuesAuthorizer
-  include InvalidInputs
-
   def authorize_values(obj)
     if obj.value.include? '-'
       range_authorize obj
@@ -20,7 +19,7 @@ module ValuesAuthorizer
 
     return obj if first >= obj.min && last <= obj.max
 
-    raise InvalidInputs::InvalidRangeInput, "Please ensure the range is within #{obj.min} and #{obj.max}"
+    raise InvalidRangeInputError, "Please ensure the range is within #{obj.min} and #{obj.max}"
   end
 
   def list_range_authorize(obj)
@@ -28,6 +27,6 @@ module ValuesAuthorizer
 
     return obj if list.first >= obj.min && list.last <= obj.max
 
-    raise InvalidInputs::InvalidListInput, "Please ensure the list values are within the range #{obj.min} - #{obj.max}"
+    raise InvalidListInputError, "Please ensure the list values are within the range #{obj.min} - #{obj.max}"
   end
 end

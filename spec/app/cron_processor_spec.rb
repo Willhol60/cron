@@ -9,13 +9,13 @@ RSpec.describe CronProcessor do
     context 'with invalid range values' do
       let(:input) { '1-150 0 1,12 * 1-5 /usr/bin/find' }
 
-      it { expect { subject }.to raise_error(InvalidInputs::InvalidRangeInput) }
+      it { expect { subject }.to raise_error(InvalidRangeInputError) }
     end
 
     context 'with invalid list values' do
       let(:input) { '1,150 0 1,12 * 1-5 /usr/bin/find' }
 
-      it { expect { subject }.to raise_error(InvalidInputs::InvalidListInput) }
+      it { expect { subject }.to raise_error(InvalidListInputError) }
     end
   end
 
@@ -70,7 +70,7 @@ RSpec.describe CronProcessor do
     context 'with input of incorrect length (no command included)' do
       let(:input) { '*/15 0 1,15 * 1-5' }
 
-      it { expect { subject }.to raise_error(InvalidInputs::NotEnoughFields) }
+      it { expect { subject }.to raise_error(NotEnoughFieldsError) }
     end
   end
 end

@@ -19,12 +19,12 @@ RSpec.describe ValuesAuthorizer do
 
     context 'when range values are invalid' do
       let(:value) { '1-32' }
-      it { expect { subject }.to raise_error(InvalidInputs::InvalidRangeInput) }
+      it { expect { subject }.to raise_error(InvalidRangeInputError) }
     end
 
     context 'when list values are invalid' do
       let(:value) { '1,32' }
-      it { expect { subject }.to raise_error(InvalidInputs::InvalidListInput) }
+      it { expect { subject }.to raise_error(InvalidListInputError) }
     end
   end
 end

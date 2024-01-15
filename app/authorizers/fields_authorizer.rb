@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+NotEnoughFieldsError = Class.new(StandardError)
+
 module FieldsAuthorizer
   def authorize_fields(fields)
-    raise InvalidInputs::NotEnoughFields unless fields.size >= 6
+    raise NotEnoughFieldsError unless fields.size >= 6
   end
 end

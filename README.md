@@ -7,7 +7,6 @@ This app parses a cron string and expands each field to show the times at which 
 - **run_cron** - receives the user input and sends to cron_processor
 - **cron_processor** - co-ordinator for the app
 - **metric** - ancestor and source of logic for all the other metric classes
-- **errors** - custom errors for input authorization
 - **authorizers** - logic for authorizing input
 
 ## Running

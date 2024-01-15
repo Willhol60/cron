@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../app/authorizers/values_authorizer'
-
 class Metric
-  include ValuesAuthorizer
   attr_reader :value, :min, :max
 
   def initialize(value)

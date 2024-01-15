@@ -14,8 +14,8 @@ class CronProcessor
   include ValuesAuthorizer
 
   def initialize(cron_string)
-    minute, hour, dom, month, dow, *command = cron_string.split
     authorize_fields(cron_string.split)
+    minute, hour, dom, month, dow, *command = cron_string.split
 
     @output = {
       minute: Minute.new(minute),
