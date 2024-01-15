@@ -32,7 +32,7 @@ RSpec.describe CronProcessor do
                             day_of_month: [1, 12],
                             month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                             day_of_week: [1, 2, 3, 4, 5],
-                            command: '/usr/bin/find'
+                            command: ['/usr/bin/find']
                           })
       }
     end
@@ -47,7 +47,22 @@ RSpec.describe CronProcessor do
                             day_of_month: [4, 5, 6, 7],
                             month: [1, 12],
                             day_of_week: [1, 2, 3, 4, 5, 6, 7],
-                            command: 'do/this/now'
+                            command: ['do/this/now']
+                          })
+      }
+    end
+
+    context 'with valid input 3 - space in command' do
+      let(:input) { '10 0-4 4-7 1,12 * do/this now' }
+
+      it {
+        is_expected.to eq({
+                            minute: [10],
+                            hour: [0, 1, 2, 3, 4],
+                            day_of_month: [4, 5, 6, 7],
+                            month: [1, 12],
+                            day_of_week: [1, 2, 3, 4, 5, 6, 7],
+                            command: ['do/this', 'now']
                           })
       }
     end
@@ -55,7 +70,7 @@ RSpec.describe CronProcessor do
     context 'with input of incorrect length (no command included)' do
       let(:input) { '*/15 0 1,15 * 1-5' }
 
-      it { is_expected.to eq('Invalid input') }
+      it { expect { subject }.to raise_error(InvalidInputs::NotEnoughFields) }
     end
   end
 end

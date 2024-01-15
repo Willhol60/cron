@@ -17,7 +17,7 @@ RSpec.describe FieldsAuthorizer do
     context 'when fields are invalid' do
       let(:fields) { %w[1 2 3 4 5] }
 
-      it { is_expected.to eq('Invalid input') }
+      it { expect { subject }.to raise_error(InvalidInputs::NotEnoughFields) }
     end
   end
 end

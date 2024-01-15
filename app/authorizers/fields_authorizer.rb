@@ -2,6 +2,6 @@
 
 module FieldsAuthorizer
   def authorize_fields(fields)
-    'Invalid input' unless fields.size == 6
+    raise InvalidInputs::NotEnoughFields unless fields.size >= 6
   end
 end

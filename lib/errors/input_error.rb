@@ -3,4 +3,5 @@
 module InvalidInputs
   InvalidRangeInput = Class.new(StandardError)
   InvalidListInput = Class.new(StandardError)
+  NotEnoughFields = Class.new(StandardError)
 end

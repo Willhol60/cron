@@ -14,28 +14,25 @@ class CronProcessor
   include ValuesAuthorizer
 
   def initialize(cron_string)
-    fields = cron_string.split
-    @invalid_fields_message = authorize_fields(fields)
-    return if @invalid_fields_message
+    minute, hour, dom, month, dow, *command = cron_string.split
+    authorize_fields(cron_string.split)
 
     @output = {
-      minute: Minute.new(fields[0]),
-      hour: Hour.new(fields[1]),
-      day_of_month: DayOfMonth.new(fields[2]),
-      month: Month.new(fields[3]),
-      day_of_week: DayOfWeek.new(fields[4])
+      minute: Minute.new(minute),
+      hour: Hour.new(hour),
+      day_of_month: DayOfMonth.new(dom),
+      month: Month.new(month),
+      day_of_week: DayOfWeek.new(dow)
     }
-    @command = { command: fields[5] }
-    authorize_all_values
+    @command = { command: command }
+    authorize_output_values
   end
 
-  def authorize_all_values
+  def authorize_output_values
     @output.each_value { |metric| authorize_values(metric) }
   end
 
   def process
-    return @invalid_fields_message if @invalid_fields_message
-
     result = @output.transform_values(&:translate)
 
     Printer.new.print(result.merge(@command))
