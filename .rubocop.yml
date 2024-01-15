@@ -4,3 +4,8 @@ Style/Documentation:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/cron_processor.rb'
+    - 'lib/metric.rb'

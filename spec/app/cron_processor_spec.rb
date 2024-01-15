@@ -26,15 +26,30 @@ RSpec.describe CronProcessor do
       let(:input) { '*/15 0 1,12 * 1-5 /usr/bin/find' }
 
       it {
-        is_expected.to eq([[0, 15, 30, 45], [0], [1, 12], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], [1, 2, 3, 4, 5],
-                           '/usr/bin/find'])
+        is_expected.to eq({
+                            minute: [0, 15, 30, 45],
+                            hour: [0],
+                            day_of_month: [1, 12],
+                            month: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                            day_of_week: [1, 2, 3, 4, 5],
+                            command: '/usr/bin/find'
+                          })
       }
     end
 
     context 'with valid input 2' do
       let(:input) { '10 0-4 4-7 1,12 * do/this/now' }
 
-      it { is_expected.to eq([[10], [0, 1, 2, 3, 4], [4, 5, 6, 7], [1, 12], [1, 2, 3, 4, 5, 6, 7], 'do/this/now']) }
+      it {
+        is_expected.to eq({
+                            minute: [10],
+                            hour: [0, 1, 2, 3, 4],
+                            day_of_month: [4, 5, 6, 7],
+                            month: [1, 12],
+                            day_of_week: [1, 2, 3, 4, 5, 6, 7],
+                            command: 'do/this/now'
+                          })
+      }
     end
 
     context 'with input of incorrect length (no command included)' do

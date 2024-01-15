@@ -35,7 +35,8 @@ class Metric
   end
 
   def step(max)
-    return [] unless @value.include? '*' # not yet implemented ... #TODO
+    # TODO: ensure ( max % value == 0) and provide a range as well as the step (eg. '1-10/2')
+    return [] unless @value.include? '*'
 
     step = @value.split('/').last.to_i
     ((max + 1) / step.to_f).ceil.times.map { |i| i * step }
