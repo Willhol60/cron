@@ -35,7 +35,7 @@ rubocop
 `app/run_cron.rb '1-15 0-1 1-15 1-5 1-5 /usr/bin/find'`
 
 #### Valid args 2
-`app/run_cron.rb '*/15 */3 1,2,15 1 1-5 /usr/bin/find'`
+`app/run_cron.rb '*/15 */3 1,2,15 1 1-5 ls -l /usr/bin/find'`
 
 #### Invalid args (invalid range error)
 `app/run_cron.rb '1-150 0-1 1-15 1-5 1-5 /usr/bin/find'`
