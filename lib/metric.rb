@@ -14,7 +14,7 @@ class Metric
     elsif @value.include? ','
       list
     elsif @value.include? '/'
-      step(max)
+      step(min, max)
     elsif @value.include? '*'
       all(min, max)
     else
@@ -31,12 +31,12 @@ class Metric
     @value.split(',').map(&:to_i)
   end
 
-  def step(max)
-    # TODO: ensure ( max % value == 0) and provide a range as well as the step (eg. '1-10/2')
+  def step(min, max)
+    # TODO: ensure ( (max + 1) % value == 0) and provide a range as well as the step (eg. '1-10/2')
     return [] unless @value.include? '*'
 
     step = @value.split('/').last.to_i
-    ((max + 1) / step.to_f).ceil.times.map { |i| i * step }
+    (0..).lazy.map { |v| min + (v * step) }.take_while { |v| v <= max }.to_a
   end
 
   def all(min, max)

@@ -6,7 +6,7 @@ RSpec.describe Metric do
   describe '#translate' do
     subject { described_class.new(field).translate(min, max) }
 
-    let(:min) { 1 }
+    let(:min) { 0 }
     let(:max) { 5 }
 
     context 'when field is a range' do
@@ -26,6 +26,12 @@ RSpec.describe Metric do
         let(:field) { '*/2' }
 
         it { is_expected.to eq([0, 2, 4]) }
+
+        context 'when min is not 0' do
+          let(:min) { 1 }
+
+          it { is_expected.to eq([1, 3, 5]) }
+        end
       end
 
       context 'another one with an asterisk' do
@@ -33,6 +39,12 @@ RSpec.describe Metric do
         let(:field) { '*/3' }
 
         it { is_expected.to eq([0, 3, 6, 9, 12]) }
+
+        context 'when min is not 0' do
+          let(:min) { 1 }
+
+          it { is_expected.to eq([1, 4, 7, 10]) }
+        end
       end
 
       context 'when field does not include an asterisk' do
