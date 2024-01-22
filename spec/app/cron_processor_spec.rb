@@ -67,6 +67,36 @@ RSpec.describe CronProcessor do
       }
     end
 
+    context 'with valid input 4 - space in command with additional tags' do
+      let(:input) { '10 0-4 4-7 1,12 * do/this now -v foo -l bar' }
+
+      it {
+        is_expected.to eq({
+                            minute: [10],
+                            hour: [0, 1, 2, 3, 4],
+                            day_of_month: [4, 5, 6, 7],
+                            month: [1, 12],
+                            day_of_week: [1, 2, 3, 4, 5, 6, 7],
+                            command: ['do/this', 'now', '-v', 'foo', '-l', 'bar']
+                          })
+      }
+    end
+
+    context 'with valid input 4 - converting month name' do
+      let(:input) { '10 0-4 4-7 Jan * do/this now -v foo -l bar' }
+
+      it {
+        is_expected.to eq({
+                            minute: [10],
+                            hour: [0, 1, 2, 3, 4],
+                            day_of_month: [4, 5, 6, 7],
+                            month: [1],
+                            day_of_week: [1, 2, 3, 4, 5, 6, 7],
+                            command: ['do/this', 'now', '-v', 'foo', '-l', 'bar']
+                          })
+      }
+    end
+
     context 'with input of incorrect length (no command included)' do
       let(:input) { '*/15 0 1,15 * 1-5' }
 

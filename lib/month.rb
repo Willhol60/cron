@@ -3,6 +3,8 @@
 require_relative 'metric'
 
 class Month < Metric
+  attr_writer :value
+
   def initialize(value)
     super
     @min = 1

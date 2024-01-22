@@ -10,7 +10,7 @@ class Metric
 
   def translate(min, max)
     if @value.include? '-'
-      range
+      range(min, max)
     elsif @value.include? ','
       list
     elsif @value.include? '/'
@@ -22,9 +22,15 @@ class Metric
     end
   end
 
-  def range
+  private
+
+  def range(min, max)
     start, stop = @value.split('-').map(&:to_i)
-    (start..stop).to_a
+    if stop < start
+      (start..max).to_a + (min..stop).to_a
+    else
+      (start..stop).to_a
+    end
   end
 
   def list

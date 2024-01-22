@@ -13,6 +13,12 @@ RSpec.describe Metric do
       let(:field) { "#{min + 1} - #{max}" }
 
       it { is_expected.to eq(((min + 1)..max).to_a) }
+
+      context 'when range wraps around' do
+        let(:field) { "#{max} - #{min + 1}" }
+
+        it { is_expected.to eq([5, 0, 1]) }
+      end
     end
 
     context 'when field is a list' do

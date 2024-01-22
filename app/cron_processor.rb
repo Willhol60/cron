@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative 'authorizers/fields_authorizer'
 require_relative 'authorizers/values_authorizer'
 require_relative '../lib/minute'
@@ -13,6 +12,8 @@ class CronProcessor
   include FieldsAuthorizer
   include ValuesAuthorizer
 
+  MONTHS = [nil, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'June'].freeze
+
   def initialize(cron_string)
     authorize_fields(cron_string.split)
     minute, hour, dom, month, dow, *command = cron_string.split
@@ -25,11 +26,19 @@ class CronProcessor
       day_of_week: DayOfWeek.new(dow)
     }
     @command = { command: command }
-    authorize_output_values
+    authorize_and_convert_output_values
   end
 
-  def authorize_output_values
-    @output.each_value { |metric| authorize_values(metric) }
+  def authorize_and_convert_output_values
+    @output.each_value do |metric|
+      authorize_values(metric)
+      convert_values(metric) if metric.is_a?(Month) && MONTHS.include?(metric.value)
+    end
+  end
+
+  def convert_values(month)
+    # receiving Month name and converting to number
+    month.value = MONTHS.index(month.value).to_s
   end
 
   def process
